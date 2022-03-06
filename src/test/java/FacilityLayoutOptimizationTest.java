@@ -12,22 +12,12 @@ public class FacilityLayoutOptimizationTest {
     @EnumSource(InstanceName.class)
     void randomPositionsForMachines_test(InstanceName instanceName){
         FacilityLayoutOptimization facilityLayoutOptimization = new FacilityLayoutOptimization(instanceName);
-        facilityLayoutOptimization.assignRandomPositionsToMachines();
-
-        var machinesList = facilityLayoutOptimization.getMachines();
-        Assertions.assertEquals(instanceName.getMachines(), machinesList.size(), "Incorrect number of machines");
-
-        var distinctPositionList = machinesList.stream().map(Machine::getPosition).distinct();
-        Assertions.assertEquals(instanceName.getMachines(), distinctPositionList.count(), "Not all dimensions are uniq");
-
-        machinesList.forEach(m ->{
-                var pos = m.getPosition();
-                Assertions.assertTrue(pos.x < instanceName.getDimension().width);
-                Assertions.assertTrue(pos.y < instanceName.getDimension().height);
-        });
-        facilityLayoutOptimization.printMachines();
-        facilityLayoutOptimization.assignRandomPositionsToMachines();
-        facilityLayoutOptimization.printMatrix();
+        var population = facilityLayoutOptimization.getPopulation(2);
+        facilityLayoutOptimization.printPopulation(population);
+        for(var p : population){
+            p.getDistance();
+            p.printDistances();
+        }
     }
 
     @DisplayName("LoadCostDateTest")
